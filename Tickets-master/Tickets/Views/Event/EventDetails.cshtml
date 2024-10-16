@@ -1,0 +1,35 @@
+﻿@model EventOrgnaiserViewModel
+@if (Model != null)
+{
+    <div class="row mb-5">
+        <!-- Event Image -->
+        <div class="col-12 col-md-5 my-4 ">
+            <div class="event-image-container">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Url.Content("~/Images/Events/" + Model.ImageUrl)" alt="Event Image" class="img-fluid event-image rounded">
+                }
+                else
+                {
+                    <img src="~/Images/Events/placeholder.png" alt="Placeholder Image" class="img-fluid event-image">
+                }
+            </div>
+        </div>
+
+        <!-- Event Details -->
+        <div class="col-12 col-md-7">
+            <div class="event-details-card p-4">
+                <h1 class="event-title mb-3">@Model.EventName</h1>
+                <p class="event-description mb-4">@Model.Description</p>
+                <p><strong>Date:</strong> @Model.Date</p>
+                <p><strong>Organizer:</strong> @Model.OrganizerName</p>
+            <p><strong>Total available Tickets : </strong> @Model.TotalNumberOfTickets</p>
+            
+            <a asp-controller="Event" asp-action="BookTicket" asp-route-id="@Model.EventId" class="btn btn-primary btn-custom">Book Now</a>
+
+                <!-- Book Now Button -->
+                <a asp-controller="Event" asp-action="BookTicket" asp-route-id="@Model.EventId" class="btn btn-primary btn-lg mt-3">Book Now</a>
+            </div>
+        </div>
+    </div>
+}

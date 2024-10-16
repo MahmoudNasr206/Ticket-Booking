@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tickets</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Tickets.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/Dashboard/tailwind.css" />
+    <link rel="stylesheet" href="~/css/Dashboard/tailwind.output.css" />
+</head>
+<body >
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+           
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+                        <li class="nav-item">
+                            <a href="../Home" class="nav-link align-middle px-0">
+                                <i class="fa-solid fa-house fa-xl"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                            </a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link align-middle px-0" asp-action="ShowUserProfile" asp-controller="Account">
+                                    <i class="fa-solid fa-accessible-icon fa-xl"></i> <span class="ms-1 d-none d-sm-inline">Profile</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
+                        {
+                            <a href="/Event/AddEvent"  class="nav-link px-0 align-middle">
+                                <li>      
+                                <i class="fa-solid fa-table-columns fa-xl"></i> <span class="ms-1 d-none d-sm-inline">Add Event</span>
+                        </li>
+                        </a>}
+                        @if (User.IsInRole("Admin")){
+                        <li>
+                            <a href="/Event/EventRequests"  class="nav-link px-0 align-middle">
+                                <i class="fa-brands fa-expeditedssl fa-xl"></i> <span class="ms-1 d-none d-sm-inline">Event requests</span>
+                            </a>
+                           
+                        </li>
+                        }
+                          @if (User.IsInRole("Admin")){
+                        <li>
+                            <a asp-action="ManageRole" asp-controller="Account" class="nav-link px-0 align-middle">
+                                    <i class="fa-brands fa-expeditedssl fa-xl"></i> <span class="ms-1 d-none d-sm-inline">Manage User Role</span>
+                            </a>
+                           
+                        </li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
+                        {
+                        <li>
+                                <a asp-action="GetTicketUploaded" asp-controller="Event" class="nav-link px-0 align-middle">
+                                <i class="fa-brands fa-expeditedssl fa-xl"></i> <span class="ms-1 d-none d-sm-inline"> My Ticket Uploaded</span>
+                            </a>
+                           
+                        </li>
+                        }
+
+                       
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a asp-action="GetBookedEvents"  asp-controller="Event" class="nav-link px-0 align-middle">
+                                    <i class="fa-brands fa-expeditedssl fa-xl"></i> <span class="ms-1 d-none d-sm-inline">Booked Tickets</span>
+                                </a>
+
+                            </li>
+          
+                        }
+                     
+                    </ul>
+                    <hr>
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                          
+                            @if (User.IsInRole("Admin") && User.IsInRole("Organizer"))
+                            {
+                                <span class="d-none d-sm-inline mx-1"> Admin</span>
+                            }
+                             @if ( User.IsInRole("Organizer"))
+                            {
+                                <span class="d-none d-sm-inline mx-1"> Organizer</span>
+                            }
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                         
+                            <li>
+                                <hr class="dropdown-divider">
+                            
+
+                            </li>
+                            <li><a class="dropdown-item fw-bold text-white d-inline " asp-controller="Account" asp-action="Logout">Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col p-0 m-0">
+
+                    <nav class="navbar navbar-dark navbar-expand-lg px-0  shadow-none border-radius-xl text-white bg-dark" id="navbarBlur" navbar-scroll="true">
+                        <div class="container-fluid py-1 px-3">
+                            <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5 text-white">
+                                <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
+                                {
+                                    <h6 class="font-weight-bolder mb-0 text-white">Dashboard</h6>
+                                }
+                                else if (User.Identity.IsAuthenticated)
+                                {
+                                    <h6 class="font-weight-bolder mb-0 text-white">Profile</h6>
+                                }
+                                </ol>
+                             
+                            
+                            </nav>
+                        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 justify-content-end" id="navbar">
+                            
+                                <ul class="navbar-nav  justify-content-end text-white">
+                                
+                                <li class="nav-item d-flex align-items-end text-white">
+                                    <a href="javascript:;" class="nav-link  font-weight-bold px-0 text-white">
+                                            <i class="fa fa-user me-sm-1"></i>
+                                            
+                                        <span class="d-sm-inline d-none">  <a class="dropdown-item fw-bold text-white d-inline ms-3" asp-controller="Account" asp-action="Logout">Log Out</a></span>
+                                        </a>
+                                    </li>
+                                <li class="nav-item d-xl-none ps-3 d-flex align-items-center text-white">
+                                    <a href="javascript:;" class="nav-link  p-0 text-white" id="iconNavbarSidenav">
+                                            <div class="sidenav-toggler-inner">
+                                                <i class="sidenav-toggler-line"></i>
+                                                <i class="sidenav-toggler-line"></i>
+                                                <i class="sidenav-toggler-line"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </nav>
+            <div class="w-100 p-4">@RenderBody()</div>
+                
+            </div>
+        </div>
+    </div>
+
+
+
+    <script ></script>
+    <script src="~/js/Dashboard/postcss.config.js"></script>
+     <script src="~/js/Dashboard/tailwind.config.js"></script>
+        <script src="~/js/Dashboard/charts-bars.js" ></script>
+    <script src="~/js/Dashboard/charts-lines.js" ></script>
+    <script src="~/js/Dashboard/charts-pie.js" ></script>
+    <script src="~/js/Dashboard/focus-trap.js" ></script>
+    <script src="~/js/Dashboard/init-alpine.js" ></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
